@@ -21,8 +21,8 @@ This confirms the rename didn't break the request path. Note: `GET /watchlist/<u
 - `POST .../add` with a new, distinct `film_id` → `201`, confirming the happy path still works.
 
 ## Comment 3 — Missing test
-**What I did:**
-**How I verified:**
+**What I did:** Created `tests/test_watchlist.py`, mirroring the fixture and assertion structure of `test_collection.py`. Added `test_add_to_watchlist_nonexistent_film_raises`, the watchlist equivalent of `test_add_to_collection_nonexistent_film_raises`: asserts that calling `add_to_watchlist()` with a `film_id` that doesn't exist raises `FilmNotFoundError`. Used the same `app` and `sample_user` fixtures (in-memory SQLite DB); `sample_film` wasn't needed since this test never creates a real film. Used an integer `fake_film_id` (`999999`) rather than a UUID string, since `Film.id` in the current pre-refactor models is still an integer (Comment 6 covers migrating this to UUIDs).
+**How I verified:** Ran `pytest tests/test_watchlist.py -v` — 1 passed. Also ran the full suite (`pytest -v`) to confirm no regressions — all 5 tests (4 existing collection tests + the new watchlist test) passed.
 
 ## Comment 4 — Default visibility
 **My position:**
