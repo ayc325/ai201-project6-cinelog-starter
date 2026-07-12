@@ -1,7 +1,7 @@
 # PR Response Doc — CineLog Watchlist Feature
 
 ## AI Usage
-<!-- Fill in at the end — how you used AI tools during this project -->
+For Comment 4 (default visibility), I asked Claude to generate a written argument for *both* `public=True` and `public=False` as the default, with reasoning and tradeoffs for each, before I picked one — I wanted to stress-test my own instinct against the strongest version of the opposing case rather than only seeing an argument for the answer I already leaned toward. Reading both made me realize the stronger case wasn't really about privacy risk (my first instinct) but about signal quality — a public default floods a community feed with unfinished intent rather than curated activity. I chose the `public=False` position and had Claude tighten the reasoning to reference CineLog's actual README description ("community film tracking app") instead of a generic discovery/privacy argument. The position and final wording in the Comment 4 section below are mine after that comparison.
 
 ## Comment 1 — Rename
 **What I did:** Renamed `save_to_watchlist()` to `add_to_watchlist()` in `services/watchlist_service.py`, matching the naming convention used by `add_to_collection()`. To find every call site, I first checked the one place I already knew imported it, `routes/watchlist/watchlist.py`, and updated both the import statement and the function call there. To make sure that was the *only* call site, I ran a project-wide search rather than trusting my own memory of the codebase.
