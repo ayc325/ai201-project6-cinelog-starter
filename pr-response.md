@@ -33,9 +33,14 @@ This confirms the rename didn't break the request path. Note: `GET /watchlist/<u
 **Tradeoff acknowledged:** The alternative — `public=True` by default — optimizes for maximizing the *volume* of shareable content on the community surface from day one, which matters for a young platform that needs a critical mass of visible activity to feel alive and worth returning to. Defaulting to private trades that immediate density for quality: fewer public watchlists at launch, but the ones that are public are more likely to reflect something a user actually wants seen. Given that CineLog already generates community content through logged/rated films and collections — the "finished" activity — the watchlist doesn't need to carry the same discovery burden, so I think the tradeoff favors `False` here specifically because this platform doesn't have to rely on watchlists to bootstrap its community feed.
 
 ## Comment 5 — Sort order
-**My position:**
-**Reasoning:**
-**Engagement with reviewer's point:**
+
+**Reviewer's comment (@jamjamgobambam, Mar 16):** "I'd prefer watchlists to default to 'date added' order rather than alphabetical. Most users want to see what they added recently. I'm open to discussion if you see it differently — but let's make a decision and document it."
+
+**My position:** Default the watchlist to `date_added` descending (newest first), matching the maintainer's preference, but expose a `sort` query param (`?sort=title`) on the watchlist endpoint so a client can request alphabetical order when that's the more useful view.
+
+**Reasoning:** "Date-added vs. alphabetical" is a false either/or — the two orders optimize for different tasks that are both real: skimming what you just added vs. looking up whether a specific title is already on the list. Defaulting to date-added gets the common case right with zero extra effort from the user, while the query param keeps the lookup use case available without forcing every user into whichever order the app happens to hard-code.
+
+**Engagement with reviewer's point:** This agrees with the maintainer's core claim — recency should be the default, since "most users want to see what they added recently" is a reasonable read of how a watchlist gets used. But "most users" isn't "all users," and a hard-coded default is still a compromise for whoever is in the minority. Rather than pick one order and treat the disagreement as settled, this makes the choice cheap to revisit per request instead of locking it in at the data-access layer. The tradeoff I'm accepting: this is more code than a one-line `order_by` change (a new query param, validation, and a doc note) for a review comment that just asked for a decision — but it's a small, contained addition, and it means neither side of the "recency vs. lookup" argument has to lose outright.
 
 ## Comment 6 — Rebase
 **What conflicted:**
