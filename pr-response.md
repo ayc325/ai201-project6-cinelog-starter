@@ -2,7 +2,15 @@
 
 ## AI Usage
 
-For Comment 4 (default visibility), I asked Claude to generate a written argument for *both* `public=True` and `public=False` as the default, with reasoning and tradeoffs for each, before I picked one — I wanted to stress-test my own instinct against the strongest version of the opposing case rather than only seeing an argument for the answer I already leaned toward. Reading both made me realize the stronger case wasn't really about privacy risk (my first instinct) but about signal quality — a public default floods a community feed with unfinished intent rather than curated activity. I chose the `public=False` position and had Claude tighten the reasoning to reference CineLog's actual README description ("community film tracking app") instead of a generic discovery/privacy argument. The position and final wording in the Comment 4 section below are mine after that comparison.
+**Comment 4 (default visibility):**
+
+- *What I asked:* To generate a written argument for *both* `public=True` and `public=False` as the default, with reasoning and a tradeoff for each, before I picked one — I wanted to stress-test my own instinct against the strongest version of the opposing case, rather than only seeing an argument for the answer I already leaned toward.
+- *How my final argument differs/builds on it:* Reading both sides changed which argument I actually believed — my first instinct was to frame this as a privacy-risk question, but the stronger case turned out to be about signal quality: a public default floods a community feed with unfinished intent rather than curated activity. I chose the `public=False` position, then asked Claude to tighten the reasoning to reference CineLog's actual README description ("community film tracking app") instead of the generic discovery/privacy framing it started with. The position and final wording in the Comment 4 section above are mine after that comparison, not a direct copy of either AI-drafted side.
+
+**Comment 5 (sort order):**
+
+- *What I asked:* To draft three options in response to the maintainer's actual review comment (date-added default, keep alphabetical, and a hybrid default-plus-`sort`-param), each engaging directly with the maintainer's stated reasoning ("most users want to see what they added recently") rather than just asserting a preference.
+- *How my final argument differs/builds on it:* I picked the hybrid option (Option C) as drafted, since it already did what I wanted — agree with the maintainer's default while addressing the one gap in their reasoning ("most" isn't "all"). I did not have the `sort` query param actually implemented in code; the response documents it as the chosen design direction, not a shipped feature.
 
 ## Comment 1 — Rename
 
