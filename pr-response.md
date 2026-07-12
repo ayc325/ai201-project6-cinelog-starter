@@ -13,8 +13,12 @@
 This confirms the rename didn't break the request path. Note: `GET /watchlist/<user_id>` and `POST` with a nonexistent `film_id` both currently 500 — pre-existing bugs unrelated to the rename (`WatchlistEntry` has no `film` relationship/backref defined on the `Film` model, and `FilmNotFoundError` isn't caught in the watchlist route), not introduced by this change.
 
 ## Comment 2 — Deduplication
-**What I did:**
-**How I verified:**
+**What I did:** Added an `AlreadyInWatchlistError` exception and a duplicate check to `add_to_watchlist()` in `services/watchlist_service.py`, mirroring the pattern in `add_to_collection()`: query for an existing `WatchlistEntry` with the same `user_id`/`film_id` before creating a new one, and raise if found instead of silently inserting a duplicate. Also updated `routes/watchlist/watchlist.py` to catch `FilmNotFoundError` (404) and `AlreadyInWatchlistError` (409) around the `add_to_watchlist()` call, matching how `routes/collection.py` handles the analogous errors for `add_to_collection()`.
+**How I verified:** Ran the app locally against a seeded SQLite DB and exercised it with curl:
+
+- `POST .../add` with a `film_id` already on the watchlist → `409` with `{"error": "Film '1' is already on this user's watchlist"}`.
+- `POST .../add` with a nonexistent `film_id` → `404` (previously this was an unhandled 500 — see Comment 1 verification note; fixed as part of following the collection service's error-handling pattern here).
+- `POST .../add` with a new, distinct `film_id` → `201`, confirming the happy path still works.
 
 ## Comment 3 — Missing test
 **What I did:**
